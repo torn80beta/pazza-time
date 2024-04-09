@@ -12,6 +12,9 @@ export async function POST(req) {
     return Response.json(createdUser);
   } catch (error) {
     console.log(error.message);
+    // return Response.json(error.message, {
+    //   status: 400,
+    // });
     return NextResponse.json(
       { status: 400, message: error.message },
       { status: 400 }
