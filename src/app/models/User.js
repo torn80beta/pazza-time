@@ -1,8 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
-function passValidator(pass) {
-  return pass.length > 7;
-}
+/* another way to validate */
+
+// function passValidator(pass) {
+//   return pass.length > 7;
+// }
 
 const UserSchema = new Schema(
   {
@@ -10,15 +12,16 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
-      validate: passValidator,
-      // (pass) => {
-      //   console.log(pass);
-      //   if (!pass?.length || pass.length < 8) {
-      //     return new Error({
-      //       message: "Password must be at least 8 characters long",
-      //     });
-      //   }
-      // },
+      validate:
+        // passValidator,
+        (pass) => {
+          if (!pass?.length || pass.length < 8) {
+            new Error({
+              message: "Password must be at least 8 characters long",
+            });
+            return false;
+          }
+        },
     },
   },
   { timestamps: true }
