@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
 /* another way to validate */
 
@@ -26,6 +27,12 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 );
+
+UserSchema.post("validate", function (user) {
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(user.password, salt);
+  user.password = hashedPassword;
+});
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 
