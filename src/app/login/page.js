@@ -14,7 +14,7 @@ export default function LoginPage() {
     e.preventDefault();
     setLoginInProgress(true);
 
-    await signIn("credentials", { email, password });
+    await signIn("credentials", { email, password, callbackUrl: "/" });
 
     // setError(false);
     // const { ok } = await fetch("/api/login", {
@@ -56,6 +56,7 @@ export default function LoginPage() {
           disabled={loginInProgress}
           onChange={(e) => setPassword(e.target.value.trim())}
         />
+
         <button type="submit" disabled={loginInProgress}>
           Login
         </button>
@@ -63,16 +64,15 @@ export default function LoginPage() {
         <div className="my-4 text-center text-gray-500">
           or login with provider
         </div>
-        <button className="flex gap-4 justify-center">
+
+        <button
+          type="button"
+          className="flex gap-4 justify-center"
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+        >
           <Image src="/google.png" width={24} height={24} alt="google" />
           Login with Google
         </button>
-        {/* <div className="text-center my-6 text-gray-500 border-t pt-4">
-          Existing account?{" "}
-          <Link className="underline" href="/login">
-            Login here &raquo;
-          </Link>
-        </div> */}
       </form>
     </section>
   );
