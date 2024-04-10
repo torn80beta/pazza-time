@@ -11,10 +11,7 @@ export async function POST(req) {
     const createdUser = await User.create(body);
     return Response.json(createdUser);
   } catch (error) {
-    console.log(error.message);
-    // return Response.json(error.message, {
-    //   status: 400,
-    // });
+    // console.log(error.message);
     return NextResponse.json(
       { status: 400, message: error.message },
       { status: 400 }
