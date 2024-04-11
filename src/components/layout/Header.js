@@ -7,7 +7,13 @@ export default function Header() {
   const session = useSession();
 
   const { status } = session;
-  // console.log(status);
+  const userData = session.data?.user;
+  let userName = userData?.name || userData?.email;
+  if (userName && userName.includes(" ")) {
+    userName = userName.split(" ")[0];
+  }
+
+  // console.log(userData);
 
   return (
     <header className="flex justify-between items-center">
@@ -22,13 +28,18 @@ export default function Header() {
       </nav>
       <nav className="flex items-center gap-4 text-gray-500 font-semibold">
         {status === "authenticated" && (
-          <button
-            onClick={() => signOut()}
-            className="bg-primary rounded-full text-white px-8 py-2"
-            href={"/register"}
-          >
-            Logout
-          </button>
+          <>
+            <Link className="whitespace-nowrap" href={"/profile"}>
+              Hello, {userName}
+            </Link>
+            <button
+              onClick={() => signOut()}
+              className="bg-primary rounded-full text-white px-8 py-2"
+              href={"/register"}
+            >
+              Logout
+            </button>
+          </>
         )}
         {status === "unauthenticated" && (
           <>
