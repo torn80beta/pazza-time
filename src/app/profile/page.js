@@ -8,12 +8,14 @@ export default function ProfilePage() {
   const session = useSession();
   const { status } = session;
   const [userName, setUserName] = useState("");
+  const [image, setImage] = useState("");
   const [profileSaved, setProfileSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
       setUserName(session.data?.user?.name);
+      setImage(session.data?.user?.image);
     }
   }, [session, status]);
 
@@ -23,7 +25,7 @@ export default function ProfilePage() {
     setIsSaving(true);
     const response = await fetch("/api/profile", {
       method: "PUT",
-      body: JSON.stringify({ name: userName }),
+      body: JSON.stringify({ name: userName, image }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -42,10 +44,16 @@ export default function ProfilePage() {
     if (files.length === 1) {
       const data = new FormData();
       data.append("file", files[0]);
-      await fetch("/api/upload", {
+      const response = await fetch("/api/upload", {
         method: "POST",
         body: data,
       });
+
+      const link = await response.json();
+      /* or we can use response.text() */
+      // const link = await response.text();
+      console.log(link);
+      setImage(link);
     }
     // const formData = new FormData();
     // formData.append("file", file);
@@ -60,7 +68,7 @@ export default function ProfilePage() {
     return redirect("/login");
   }
 
-  const userImage = session.data?.user?.image;
+  // const userImage = session.data?.user?.image;
 
   return (
     <section className="mt-8">
@@ -78,14 +86,16 @@ export default function ProfilePage() {
 
         <div className="flex gap-4 items-center">
           <div>
-            <div className="p-2 rounded-lg">
-              <Image
-                className="rounded-lg w-full h-full mb-1"
-                src={userImage}
-                alt="user image"
-                width={250}
-                height={250}
-              />
+            <div className="p-2 rounded-lg max-w[120px]">
+              {image && (
+                <Image
+                  className="rounded-lg w-full h-full mb-1"
+                  src={image}
+                  alt="user image"
+                  width={250}
+                  height={250}
+                />
+              )}
               <label>
                 <input
                   className="hidden"
