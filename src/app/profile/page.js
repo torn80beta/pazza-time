@@ -11,6 +11,7 @@ export default function ProfilePage() {
   const [image, setImage] = useState("");
   const [profileSaved, setProfileSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -44,16 +45,21 @@ export default function ProfilePage() {
     if (files.length === 1) {
       const data = new FormData();
       data.append("file", files[0]);
+      setIsUploading(true);
+
       const response = await fetch("/api/upload", {
         method: "POST",
         body: data,
       });
 
       const link = await response.json();
+
       /* or we can use response.text() */
       // const link = await response.text();
-      console.log(link);
+
       setImage(link);
+
+      setIsUploading(false);
     }
     // const formData = new FormData();
     // formData.append("file", file);
@@ -76,17 +82,26 @@ export default function ProfilePage() {
 
       <div className="max-w-md mx-auto">
         {profileSaved && (
-          <h2 className="text-center bg-green-100 p-4 rounded-lg">
+          <div className="text-center bg-green-100 p-4 rounded-lg">
             Profile saved!
-          </h2>
+          </div>
         )}
+
         {isSaving && (
-          <h2 className="text-center bg-blue-100 p-4 rounded-lg">Saving...</h2>
+          <div className="text-center bg-blue-100 p-4 rounded-lg">
+            Saving...
+          </div>
+        )}
+
+        {isUploading && (
+          <div className="text-center bg-blue-100 p-4 rounded-lg">
+            Uploading image...
+          </div>
         )}
 
         <div className="flex gap-4 items-center">
           <div>
-            <div className="p-2 rounded-lg max-w[120px]">
+            <div className="p-2 rounded-lg min-w-24 max-w-[120px]">
               {image && (
                 <Image
                   className="rounded-lg w-full h-full mb-1"
