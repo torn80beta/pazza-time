@@ -17,28 +17,37 @@ export async function PUT(req) {
   // console.log({ email, data });
   // console.log(newName);
 
-  const update = {};
+  // const update = {};
 
-  if ("name" in data) {
-    update.name = data.name;
-  }
+  // if ("name" in data) {
+  //   update.name = data.name;
+  // }
 
-  if ("image" in data) {
-    update.image = data.image;
-  }
+  // if ("image" in data) {
+  //   update.image = data.image;
+  // }
 
-  if (Object.keys(update).length > 0) {
-    const user = await User.findOneAndUpdate({ email }, update, { new: true });
-    // const user = await User.findOne({ email: email });
-    // user.name = data.name;
+  // if (Object.keys(update).length > 0) {
+  const user = await User.findOneAndUpdate({ email }, data, { new: true });
+  // const user = await User.findOne({ email: email });
+  // user.name = data.name;
 
-    // user = await user.save();
-    // console.log(user);
-    // if (!user.name) {
-    //   // console.log(user.name);
-    //   // console.log("user: " + user.name);
-    // }
-  }
+  // user = await user.save();
+  // console.log(user);
+  // if (!user.name) {
+  //   // console.log(user.name);
+  //   // console.log("user: " + user.name);
+  // }
+  // }
 
   return NextResponse.json({ ok: true });
+}
+
+export async function GET() {
+  mongoose.connect(process.env.MONGO_URL);
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email;
+  const user = await User.findOne({ email: email });
+
+  return NextResponse.json(user);
 }
