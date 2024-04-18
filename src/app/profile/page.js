@@ -5,15 +5,16 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import InfoBox from "../../components/layout/InfoBox";
 import SuccessBox from "../../components/layout/SuccessBox";
+import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const session = useSession();
   const { status } = session;
   const [userName, setUserName] = useState("");
   const [image, setImage] = useState("");
-  const [profileSaved, setProfileSaved] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  // const [profileSaved, setProfileSaved] = useState(false);
+  // const [isSaving, setIsSaving] = useState(false);
+  // const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -24,21 +25,49 @@ export default function ProfilePage() {
 
   async function handleProfileInfoUpdate(e) {
     e.preventDefault();
-    setProfileSaved(false);
-    setIsSaving(true);
-    const response = await fetch("/api/profile", {
+
+    const profileUpdatePromise = fetch("/api/profile", {
       method: "PUT",
       body: JSON.stringify({ name: userName, image }),
       headers: {
         "Content-Type": "application/json",
       },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(error);
+        throw new Error("Profile update failed!");
+      });
+    //   .then((res) => {
+    //   if (res.ok) {
+    //     return res.json();
+    //   }
+    //   throw new Error("Profile update failed!");
+    // });
+
+    await toast.promise(profileUpdatePromise, {
+      loading: "Saving...",
+      success: "Profile saved!",
+      error: "Updating failed!",
     });
 
-    setIsSaving(false);
+    // setProfileSaved(false);
+    // setIsSaving(true);
+    // const response = await fetch("/api/profile", {
+    //   method: "PUT",
+    //   body: JSON.stringify({ name: userName, image }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
 
-    if (response.ok) {
-      setProfileSaved(true);
-    }
+    // setIsSaving(false);
+
+    // if (response.ok) {
+    //   setProfileSaved(true);
+    // }
   }
 
   async function handleFileChange(e) {
@@ -47,21 +76,39 @@ export default function ProfilePage() {
     if (files.length === 1) {
       const data = new FormData();
       data.append("file", files[0]);
-      setIsUploading(true);
+      // setIsUploading(true);
 
-      const response = await fetch("/api/upload", {
+      const uploadPromise = fetch("/api/upload", {
         method: "POST",
         body: data,
+      }).then((res) => {
+        if (res.ok) {
+          return res.json().then((link) => {
+            setImage(link);
+          });
+        }
+        throw new Error("Upload failed!");
       });
 
-      const link = await response.json();
+      await toast.promise(uploadPromise, {
+        loading: "Uploading...",
+        success: "Upload complete.",
+        error: "Upload failed.",
+      });
+
+      // const response = await fetch("/api/upload", {
+      //   method: "POST",
+      //   body: data,
+      // });
+
+      // const link = await response.json();
 
       /* or we can use response.text() */
       // const link = await response.text();
 
-      setImage(link);
+      // setImage(link);
 
-      setIsUploading(false);
+      // setIsUploading(false);
     }
     // const formData = new FormData();
     // formData.append("file", file);
@@ -83,11 +130,11 @@ export default function ProfilePage() {
       <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
 
       <div className="max-w-md mx-auto">
-        {profileSaved && <SuccessBox>Profile saved!</SuccessBox>}
+        {/* {profileSaved && <SuccessBox>Profile saved!</SuccessBox>} */}
 
-        {isSaving && <InfoBox>Saving...</InfoBox>}
+        {/* {isSaving && <InfoBox>Saving...</InfoBox>} */}
 
-        {isUploading && <InfoBox>Uploading image...</InfoBox>}
+        {/* {isUploading && <InfoBox>Uploading image...</InfoBox>} */}
 
         <div className="flex gap-4 items-center">
           <div>
