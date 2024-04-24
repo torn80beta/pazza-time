@@ -17,6 +17,7 @@ export default function ProfilePage() {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isProfileFetched, setIsProfileFetched] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -29,12 +30,17 @@ export default function ProfilePage() {
           return res.json();
         })
         .then((data) => {
+          /* fix  */
+          setUserName(data.name);
+          setImage(data.image);
+          /*  */
           setPhone(data.phone);
           setStreetAddress(data.streetAddress);
           setPostalCode(data.postalCode);
           setCity(data.city);
           setCountry(data.country);
           setIsAdmin(data.admin);
+          setIsProfileFetched(true);
         });
     }
   }, [session, status]);
@@ -117,7 +123,7 @@ export default function ProfilePage() {
     // formData.append("upload_preset", "pazza-time");
   }
 
-  if (status === "loading") {
+  if (status === "loading" || !isProfileFetched) {
     return <p>Loading...</p>;
   }
 
@@ -149,7 +155,7 @@ export default function ProfilePage() {
                   onChange={handleFileChange}
                 />
                 <span className="block text-center border border-grey-300 rounded-lg p-2 cursor-pointer">
-                  Edit
+                  {image ? "Edit" : "Upload Avatar"}
                 </span>
               </label>
             </div>

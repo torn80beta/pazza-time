@@ -10,6 +10,13 @@ import clientPromise from "@/libs/mongoConnect";
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   adapter: MongoDBAdapter(clientPromise),
+  /* tmp */
+  debug: process.env.NODE_ENV === "development",
+  session: { strategy: "jwt" },
+  jwt: {
+    secret: process.env.NEXTAUTH_JWT_SECRET,
+  },
+  /*  */
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -32,13 +39,13 @@ export const authOptions = {
         mongoose.connect(process.env.MONGO_URL);
 
         const user = await User.findOne({ email });
+
         const isPasswordOk =
           user && bcrypt.compareSync(password, user.password);
 
         if (isPasswordOk) {
           return user;
         }
-        // console.log(credentials);
 
         return null;
       },

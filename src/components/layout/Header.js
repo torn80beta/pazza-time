@@ -5,10 +5,10 @@ import { signOut } from "next-auth/react";
 
 export default function Header() {
   const session = useSession();
-
   const { status } = session;
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
+
   if (userName && userName.includes(" ")) {
     userName = userName.split(" ")[0];
   }
