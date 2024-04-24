@@ -3,9 +3,8 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import InfoBox from "../../components/layout/InfoBox";
-import SuccessBox from "../../components/layout/SuccessBox";
 import toast from "react-hot-toast";
+import UserTabs from "../../components/layout/UserTabs";
 
 export default function ProfilePage() {
   const session = useSession();
@@ -17,9 +16,7 @@ export default function ProfilePage() {
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
-  // const [profileSaved, setProfileSaved] = useState(false);
-  // const [isSaving, setIsSaving] = useState(false);
-  // const [isUploading, setIsUploading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -37,6 +34,7 @@ export default function ProfilePage() {
           setPostalCode(data.postalCode);
           setCity(data.city);
           setCountry(data.country);
+          setIsAdmin(data.admin);
         });
     }
   }, [session, status]);
@@ -66,34 +64,12 @@ export default function ProfilePage() {
         console.log(error);
         throw new Error("Profile update failed!");
       });
-    //   .then((res) => {
-    //   if (res.ok) {
-    //     return res.json();
-    //   }
-    //   throw new Error("Profile update failed!");
-    // });
 
     await toast.promise(profileUpdatePromise, {
       loading: "Saving...",
       success: "Profile saved!",
       error: "Updating failed!",
     });
-
-    // setProfileSaved(false);
-    // setIsSaving(true);
-    // const response = await fetch("/api/profile", {
-    //   method: "PUT",
-    //   body: JSON.stringify({ name: userName, image }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-
-    // setIsSaving(false);
-
-    // if (response.ok) {
-    //   setProfileSaved(true);
-    // }
   }
 
   async function handleFileChange(e) {
@@ -149,22 +125,14 @@ export default function ProfilePage() {
     return redirect("/login");
   }
 
-  // const userImage = session.data?.user?.image;
-
   return (
     <section className="mt-8">
-      <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
+      <UserTabs isAdmin={isAdmin} />
 
-      <div className="max-w-md mx-auto">
-        {/* {profileSaved && <SuccessBox>Profile saved!</SuccessBox>} */}
-
-        {/* {isSaving && <InfoBox>Saving...</InfoBox>} */}
-
-        {/* {isUploading && <InfoBox>Uploading image...</InfoBox>} */}
-
+      <div className="max-w-md mx-auto mt-8">
         <div className="flex gap-4">
           <div>
-            <div className="p-2 rounded-lg min-w-24 max-w-[120px]">
+            <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
               {image && (
                 <Image
                   className="rounded-lg w-full h-full mb-1"
@@ -174,7 +142,7 @@ export default function ProfilePage() {
                   height={250}
                 />
               )}
-              <label>
+              <label className="p-0">
                 <input
                   className="hidden"
                   type="file"
