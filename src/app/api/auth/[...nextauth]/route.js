@@ -10,13 +10,13 @@ import clientPromise from "@/libs/mongoConnect";
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   adapter: MongoDBAdapter(clientPromise),
-  /* tmp */
-  debug: process.env.NODE_ENV === "development",
+  /* credentials fix start */
+  // debug: process.env.NODE_ENV === "development",
   session: { strategy: "jwt" },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
-  /*  */
+  /* credentials fix end */
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,

@@ -30,10 +30,10 @@ export default function ProfilePage() {
           return res.json();
         })
         .then((data) => {
-          /* fix  */
+          /* credentials fix  start */
           setUserName(data.name);
           setImage(data.image);
-          /*  */
+          /* credentials fix  end */
           setPhone(data.phone);
           setStreetAddress(data.streetAddress);
           setPostalCode(data.postalCode);
