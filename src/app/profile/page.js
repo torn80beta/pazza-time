@@ -65,7 +65,7 @@ export default function ProfilePage() {
       .then((res) => {
         return res.json();
       })
-      .catch((err) => {
+      .catch((error) => {
         console.log(error);
         throw new Error("Profile update failed!");
       });

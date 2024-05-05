@@ -5,11 +5,46 @@ import { useProfile } from "../hooks/UseProfile";
 import EditableImage from "@/components/layout/EditableImage";
 import { useState } from "react";
 import { redirect } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 export default function MenuItemsPage() {
   const { isLoading: isProfileLoading, data: profileData } = useProfile();
   const [image, setImage] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [basePrice, setBasePrice] = useState(0);
   const isAdmin = profileData?.admin;
+
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    const data = {
+      image,
+      name,
+      description,
+      basePrice,
+    };
+    const savingPromise = new Promise(async (resolve, reject) => {
+      const response = await fetch("/api/menu-items", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        resolve();
+      } else {
+        reject({ error: "Failed to create new menu item" });
+      }
+    });
+
+    await toast.promise(savingPromise, {
+      loading: "Saving...",
+      success: "Item saved!",
+      error: "Failed to save!",
+    });
+  }
 
   if (isProfileLoading) {
     return <div>Loading...</div>;
@@ -25,9 +60,13 @@ export default function MenuItemsPage() {
       <UserTabs isAdmin={isAdmin} />
       {isAdmin && (
         <>
-          <form className="mt-8 max-w-md mx-auto">
-            <div className="flex items-start gap-4">
-              <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
+          <form className="mt-8 max-w-md mx-auto" onSubmit={handleFormSubmit}>
+            <div
+              className="grid items-start gap-4"
+              style={{ gridTemplateColumns: ".3fr .7fr" }}
+            >
+              <div className="">
+                {/* <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]"> */}
                 <EditableImage
                   link={image}
                   setLink={setImage}
@@ -37,11 +76,23 @@ export default function MenuItemsPage() {
               {/* <EditableImage link={image} setLink={setImage} /> */}
               <div className="grow">
                 <label>Item name</label>
-                <input type="text" />
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
+                />
                 <label>Description</label>
-                <input type="text" />
+                <input
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  type="text"
+                />
                 <label>Base price</label>
-                <input type="text" />
+                <input
+                  value={basePrice}
+                  onChange={(e) => setBasePrice(e.target.value)}
+                  type="text"
+                />
 
                 <button className="" type="submit">
                   Save
