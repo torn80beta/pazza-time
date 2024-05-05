@@ -1,11 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import UserTabs from "../../components/layout/UserTabs";
-
+import EditableImage from "../../components/layout/EditableImage";
 export default function ProfilePage() {
   const session = useSession();
   const { status } = session;
@@ -78,51 +77,6 @@ export default function ProfilePage() {
     });
   }
 
-  async function handleFileChange(e) {
-    const files = e.target.files;
-
-    if (files.length === 1) {
-      const data = new FormData();
-      data.append("file", files[0]);
-      // setIsUploading(true);
-
-      const uploadPromise = fetch("/api/upload", {
-        method: "POST",
-        body: data,
-      }).then((res) => {
-        if (res.ok) {
-          return res.json().then((link) => {
-            setImage(link);
-          });
-        }
-        throw new Error("Upload failed!");
-      });
-
-      await toast.promise(uploadPromise, {
-        loading: "Uploading...",
-        success: "Upload complete.",
-        error: "Upload failed.",
-      });
-
-      // const response = await fetch("/api/upload", {
-      //   method: "POST",
-      //   body: data,
-      // });
-
-      // const link = await response.json();
-
-      /* or we can use response.text() */
-      // const link = await response.text();
-
-      // setImage(link);
-
-      // setIsUploading(false);
-    }
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // formData.append("upload_preset", "pazza-time");
-  }
-
   if (status === "loading" || !isProfileFetched) {
     return <p>Loading...</p>;
   }
@@ -139,25 +93,11 @@ export default function ProfilePage() {
         <div className="flex gap-4">
           <div>
             <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
-              {image && (
-                <Image
-                  className="rounded-lg w-full h-full mb-1"
-                  src={image}
-                  alt="user image"
-                  width={250}
-                  height={250}
-                />
-              )}
-              <label className="p-0">
-                <input
-                  className="hidden"
-                  type="file"
-                  onChange={handleFileChange}
-                />
-                <span className="block text-center border border-grey-300 rounded-lg p-2 cursor-pointer">
-                  {image ? "Edit" : "Upload Avatar"}
-                </span>
-              </label>
+              <EditableImage
+                link={image}
+                setLink={setImage}
+                variant={"avatar"}
+              />
             </div>
           </div>
           <form className="grow" onSubmit={handleProfileInfoUpdate}>
