@@ -1,8 +1,8 @@
-import { model, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const MenuItemSchema = new Schema(
   {
-    name: { type: String },
+    name: { type: String, unique: true, required: true },
     description: { type: String },
     image: { type: String },
     basePrice: { type: Number },
@@ -10,4 +10,7 @@ const MenuItemSchema = new Schema(
   { timestamps: true }
 );
 
-export const MenuItem = model?.MenuItem || model("MenuItem", MenuItemSchema);
+const MenuItem =
+  mongoose.models?.MenuItem || mongoose.model("MenuItem", MenuItemSchema);
+
+export default MenuItem;

@@ -52,12 +52,12 @@ export default function NewMenuItem() {
     setRedirectToMenu(true);
   }
 
-  if (isProfileLoading) {
-    return <div>Loading...</div>;
+  if (redirectToMenu) {
+    redirect("/menu-items");
   }
 
-  if (redirectToMenu) {
-    return redirect("/menu-items");
+  if (isProfileLoading) {
+    return <div>Loading...</div>;
   }
 
   if (!isAdmin && !isProfileLoading) {
