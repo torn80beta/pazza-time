@@ -5,9 +5,9 @@ import UserTabs from "@/components/layout/UserTabs";
 import EditableImage from "@/components/layout/EditableImage";
 import { useState } from "react";
 import { redirect } from "next/navigation";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Link from "next/link";
-import Right from "@/components/icons/Right";
+import Left from "@/components/icons/Left";
 
 export default function NewMenuItem() {
   const { isLoading: isProfileLoading, data: profileData } = useProfile();
@@ -16,6 +16,8 @@ export default function NewMenuItem() {
   const [description, setDescription] = useState("");
   const [basePrice, setBasePrice] = useState(0);
   const isAdmin = profileData?.admin;
+  const [redirectToMenu, setRedirectToMenu] = useState(false);
+  // const isAdmin = false;
 
   async function handleFormSubmit(e) {
     e.preventDefault();
@@ -46,10 +48,16 @@ export default function NewMenuItem() {
       success: "Item saved!",
       error: "Failed to save!",
     });
+
+    setRedirectToMenu(true);
   }
 
   if (isProfileLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (redirectToMenu) {
+    return redirect("/menu-items");
   }
 
   if (!isAdmin && !isProfileLoading) {
@@ -64,8 +72,8 @@ export default function NewMenuItem() {
         <>
           <div className="max-w-md mx-auto mt-8">
             <Link className="button" href="/menu-items">
+              <Left />
               <span> Back to menu</span>
-              <Right />
             </Link>
           </div>
           <form className="mt-8 max-w-md mx-auto" onSubmit={handleFormSubmit}>

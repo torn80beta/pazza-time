@@ -1,5 +1,6 @@
 import Image from "next/image";
 import NoImage from "../icons/NoImage";
+import toast from "react-hot-toast";
 
 export default function EditableImage({ link, setLink, variant }) {
   async function handleFileChange(e) {
