@@ -17,3 +17,9 @@ export async function POST(req) {
 
   return NextResponse.json(createdMenuItem);
 }
+
+export async function GET(req) {
+  mongoose.connect(process.env.MONGO_URL);
+  const menuItems = await MenuItem.find();
+  return NextResponse.json(menuItems);
+}
