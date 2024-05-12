@@ -40,6 +40,7 @@ export default function EditableImage({ link, setLink, variant }) {
           alt="user image"
           width={250}
           height={250}
+          priority={true}
         />
       )) || <NoImage />}
       <label className="p-0">

@@ -52,7 +52,7 @@ export default function MenuItemsPage() {
             menuItems.map((item) => (
               <Link
                 href={`/menu-items/edit/${item._id}`}
-                className="bg-gray-100 rounded-lg p-4 border border-grey-300 flex flex-col"
+                className="bg-gray-100 rounded-lg p-4 flex flex-col"
                 key={item._id}
               >
                 <div className="relative grow">
@@ -62,6 +62,7 @@ export default function MenuItemsPage() {
                     width={100}
                     height={100}
                     className="w-full h-full object-cover rounded-md"
+                    priority={true}
                   />
                 </div>
                 <div className="text-center">{item.name}</div>
