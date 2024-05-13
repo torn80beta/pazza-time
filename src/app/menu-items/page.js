@@ -27,7 +27,7 @@ export default function MenuItemsPage() {
   }, []);
 
   if (isProfileLoading) {
-    return <div>Loading...</div>;
+    return <div className="text-center">Loading...</div>;
   }
 
   if (!isAdmin && !isProfileLoading) {
@@ -37,7 +37,7 @@ export default function MenuItemsPage() {
 
   return (
     <section className="mt-8 max-w-md mx-auto">
-      <h2 className="text-3xl text-center mb-8">Menu items page</h2>
+      {/* <h2 className="text-3xl text-center mb-8">Menu items page</h2> */}
       <UserTabs isAdmin={isAdmin} />
       <div className="mt-8">
         <Link className="button flex" href="/menu-items/new">

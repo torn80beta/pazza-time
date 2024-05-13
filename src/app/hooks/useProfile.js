@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useProfile(second) {
+export function useProfile() {
   const [data, setData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
