@@ -19,15 +19,17 @@ export default function EditMenuItemPage() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`/api/menu-items/${id}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMenuItem(data);
-      });
-  }, [id]);
+    if (isAdmin) {
+      fetch(`/api/menu-items/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setMenuItem(data);
+        });
+    }
+  }, [id, isAdmin]);
 
   async function handleFormSubmit(e, data) {
     e.preventDefault();
