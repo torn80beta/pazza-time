@@ -1,5 +1,6 @@
 import EditableImage from "@/components/layout/EditableImage";
 import { useState } from "react";
+import { nanoid } from "nanoid";
 
 export default function MenuItemForm({ onSubmit, menuItem }) {
   const [image, setImage] = useState(menuItem?.image || "");
@@ -13,10 +14,9 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
   }
 
   function editSize(e, index, prop) {
-    const newValue = e.target.value;
     setSizes((prevSizes) => {
       const newSizes = [...prevSizes];
-      newSizes[index][prop] = newValue;
+      newSizes[index][prop] = e.target.value;
       return newSizes;
     });
   }
@@ -54,11 +54,12 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
             onChange={(e) => setBasePrice(e.target.value)}
             type="text"
           />
+
           <div className="bg-gray-200 p-2 rounded-md mb-2">
             <label>Sizes</label>
             {sizes?.length > 0 &&
               sizes.map((size, index) => (
-                <div className="flex gap-2" key={size.name}>
+                <div className="flex gap-2" key={nanoid}>
                   <div>
                     <label>Size name</label>
                     <input
