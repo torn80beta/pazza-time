@@ -1,6 +1,8 @@
 import EditableImage from "@/components/layout/EditableImage";
 import { useState } from "react";
 import { nanoid } from "nanoid";
+import Trash from "../icons/Trash";
+import Plus from "../icons/Plus";
 
 export default function MenuItemForm({ onSubmit, menuItem }) {
   const [image, setImage] = useState(menuItem?.image || "");
@@ -19,6 +21,10 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
       newSizes[index][prop] = e.target.value;
       return newSizes;
     });
+  }
+
+  function removeSize(index) {
+    setSizes((prevSizes) => prevSizes.filter((_, i) => i !== index));
   }
 
   return (
@@ -59,7 +65,7 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
             <label>Sizes</label>
             {sizes?.length > 0 &&
               sizes.map((size, index) => (
-                <div className="flex gap-2" key={nanoid}>
+                <div className="flex gap-2 items-end" key={nanoid}>
                   <div>
                     <label>Size name</label>
                     <input
@@ -79,10 +85,24 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
                       onChange={(e) => editSize(e, index, "price")}
                     />
                   </div>
+                  <div>
+                    <button
+                      className="mb-2 bg-white px-2"
+                      type="button"
+                      onClick={() => removeSize(index)}
+                    >
+                      <Trash />
+                    </button>
+                  </div>
                 </div>
               ))}
-            <button onClick={addSize} className="bg-white" type="button">
-              Add size
+            <button
+              onClick={addSize}
+              className="bg-white items-center"
+              type="button"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add size</span>
             </button>
           </div>
 
