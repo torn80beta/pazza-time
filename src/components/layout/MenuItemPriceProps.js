@@ -2,36 +2,41 @@ import { nanoid } from "nanoid";
 import Trash from "../icons/Trash";
 import Plus from "../icons/Plus";
 
-export default function MenuItemPriceProps({ sizes, setSizes }) {
-  function addSize() {
-    setSizes((oldSizes) => [...oldSizes, { name: "", price: 0 }]);
+export default function MenuItemPriceProps({
+  name,
+  addLabel,
+  props,
+  setProps,
+}) {
+  function addProps() {
+    setProps((oldProps) => [...oldProps, { name: "", price: 0 }]);
   }
 
-  function editSize(e, index, prop) {
-    setSizes((prevSizes) => {
-      const newSizes = [...prevSizes];
-      newSizes[index][prop] = e.target.value;
-      return newSizes;
+  function editProps(e, index, prop) {
+    setProps((prevProps) => {
+      const newProps = [...prevProps];
+      newProps[index][prop] = e.target.value;
+      return newProps;
     });
   }
 
-  function removeSize(index) {
-    setSizes((prevSizes) => prevSizes.filter((_, i) => i !== index));
+  function removeProps(index) {
+    setProps((prevProps) => prevProps.filter((_, i) => i !== index));
   }
 
   return (
     <div className="bg-gray-200 p-2 rounded-md mb-2">
-      <label>Sizes</label>
-      {sizes?.length > 0 &&
-        sizes.map((size, index) => (
+      <label>{name}</label>
+      {props?.length > 0 &&
+        props.map((size, index) => (
           <div className="flex gap-2 items-end" key={nanoid}>
             <div>
-              <label>Size name</label>
+              <label>Name</label>
               <input
                 type="text"
-                placeholder="Size name"
+                placeholder="Add name"
                 value={size.name}
-                onChange={(e) => editSize(e, index, "name")}
+                onChange={(e) => editProps(e, index, "name")}
               />
             </div>
 
@@ -41,23 +46,27 @@ export default function MenuItemPriceProps({ sizes, setSizes }) {
                 type="text"
                 placeholder="Extra price"
                 value={size.price}
-                onChange={(e) => editSize(e, index, "price")}
+                onChange={(e) => editProps(e, index, "price")}
               />
             </div>
             <div>
               <button
                 className="mb-2 bg-white px-2"
                 type="button"
-                onClick={() => removeSize(index)}
+                onClick={() => removeProps(index)}
               >
                 <Trash />
               </button>
             </div>
           </div>
         ))}
-      <button onClick={addSize} className="bg-white items-center" type="button">
+      <button
+        onClick={addProps}
+        className="bg-white items-center"
+        type="button"
+      >
         <Plus className="w-4 h-4" />
-        <span>Add size</span>
+        <span>{addLabel}</span>
       </button>
     </div>
   );
