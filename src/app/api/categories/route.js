@@ -25,3 +25,15 @@ export async function PUT(req) {
   await Category.updateOne({ _id }, { name });
   return NextResponse.json({ _id, name });
 }
+
+export async function DELETE(req) {
+  mongoose.connect(process.env.MONGO_URL);
+  const { _id } = await req.json();
+
+  // or you can use:
+  // const url = new URL(req.url)
+  // const _id = url.searchParams.get("_id")
+
+  await Category.deleteOne({ _id });
+  return NextResponse.json({ _id });
+}
