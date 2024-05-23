@@ -31,3 +31,11 @@ export async function GET(req) {
   const menuItems = await MenuItem.find();
   return NextResponse.json(menuItems);
 }
+
+export async function DELETE(req) {
+  mongoose.connect(process.env.MONGO_URL);
+  const { _id } = await req.json();
+  await MenuItem.findOneAndDelete({ _id });
+
+  return NextResponse.json(true);
+}

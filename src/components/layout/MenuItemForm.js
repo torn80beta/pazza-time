@@ -2,7 +2,7 @@ import EditableImage from "@/components/layout/EditableImage";
 import { useState } from "react";
 import MenuItemPriceProps from "@/components/layout/MenuItemPriceProps";
 
-export default function MenuItemForm({ onSubmit, menuItem }) {
+export default function MenuItemForm({ onSubmit, menuItem, onDelete }) {
   const [image, setImage] = useState(menuItem?.image || "");
   const [name, setName] = useState(menuItem?.name || "");
   const [description, setDescription] = useState(menuItem?.description || "");
@@ -63,6 +63,12 @@ export default function MenuItemForm({ onSubmit, menuItem }) {
           <button className="" type="submit">
             Save
           </button>
+
+          <div className="max-w-md mx-auto mt-2">
+            <button type="button" onClick={onDelete}>
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </form>
