@@ -45,7 +45,7 @@ export default function EditableImage({ link, setLink, variant }) {
       )) || <NoImage />}
       <label className="p-0">
         <input className="hidden" type="file" onChange={handleFileChange} />
-        <span className="block text-center border border-grey-300 rounded-lg p-2 cursor-pointer">
+        <span className="block text-center border border-grey-300 rounded-lg mt-1 p-2 cursor-pointer">
           {link ? "Edit" : `Upload ${variant}`}
         </span>
       </label>

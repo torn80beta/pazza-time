@@ -1,5 +1,5 @@
 export default function NoImage({
-  className = "rounded-lg w-full h-full mb-1",
+  className = "w-full max-h-[7rem] object-cover rounded-md",
 }) {
   return (
     <svg

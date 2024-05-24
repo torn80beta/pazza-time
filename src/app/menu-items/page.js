@@ -7,6 +7,7 @@ import Link from "next/link";
 import Right from "@/components/icons/Right";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import NoImage from "@/components/icons/NoImage";
 
 export default function MenuItemsPage() {
   const { isLoading: isProfileLoading, data: profileData } = useProfile();
@@ -56,14 +57,16 @@ export default function MenuItemsPage() {
                 key={item._id}
               >
                 <div className="relative grow">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={100}
-                    height={100}
-                    className="w-full h-full object-cover rounded-md"
-                    priority={true}
-                  />
+                  {(item.image && (
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={100}
+                      height={100}
+                      className="w-full h-full object-cover rounded-md"
+                      priority={true}
+                    />
+                  )) || <NoImage />}
                 </div>
                 <div className="text-center">{item.name}</div>
               </Link>
