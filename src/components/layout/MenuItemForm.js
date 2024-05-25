@@ -1,20 +1,39 @@
 import EditableImage from "@/components/layout/EditableImage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuItemPriceProps from "@/components/layout/MenuItemPriceProps";
+import DeleteButton from "../DeleteButton";
 
 export default function MenuItemForm({ onSubmit, menuItem, onDelete }) {
   const [image, setImage] = useState(menuItem?.image || "");
   const [name, setName] = useState(menuItem?.name || "");
   const [description, setDescription] = useState(menuItem?.description || "");
+  const [category, setCategory] = useState(menuItem?.category || "");
   const [basePrice, setBasePrice] = useState(menuItem?.basePrice || 0);
   const [sizes, setSizes] = useState(menuItem?.sizes || []);
   const [extras, setExtras] = useState(menuItem?.extras || []);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/categories").then((res) => {
+      res.json().then((cats) => {
+        setCategories(cats);
+      });
+    });
+  }, []);
 
   return (
     <form
       className="mt-8 max-w-md mx-auto"
       onSubmit={(e) =>
-        onSubmit(e, { image, name, description, basePrice, sizes, extras })
+        onSubmit(e, {
+          image,
+          name,
+          description,
+          category,
+          basePrice,
+          sizes,
+          extras,
+        })
       }
     >
       <div
@@ -25,7 +44,7 @@ export default function MenuItemForm({ onSubmit, menuItem, onDelete }) {
           {/* <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]"> */}
           <EditableImage link={image} setLink={setImage} variant={"image"} />
         </div>
-        {/* <EditableImage link={image} setLink={setImage} /> */}
+
         <div className="grow">
           <label>Item name</label>
           <input
@@ -39,6 +58,20 @@ export default function MenuItemForm({ onSubmit, menuItem, onDelete }) {
             onChange={(e) => setDescription(e.target.value)}
             type="text"
           />
+
+          <label>Category</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {categories?.length > 0 &&
+              categories.map((cat) => (
+                <option value={cat._id} key={cat._id}>
+                  {cat.name}
+                </option>
+              ))}
+          </select>
+
           <label>Base price</label>
           <input
             value={basePrice}
@@ -65,9 +98,7 @@ export default function MenuItemForm({ onSubmit, menuItem, onDelete }) {
           </button>
 
           <div className="max-w-md mx-auto mt-2">
-            <button type="button" onClick={onDelete}>
-              Delete
-            </button>
+            <DeleteButton label={"Delete"} onDelete={onDelete} />
           </div>
         </div>
       </div>

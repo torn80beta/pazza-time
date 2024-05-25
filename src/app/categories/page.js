@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useProfile } from "@/app/hooks/UseProfile";
 import toast from "react-hot-toast";
+import DeleteButton from "@/components/DeleteButton";
 
 export default function CategoriesPage() {
   const [categoryName, setCategoryName] = useState("");
@@ -158,12 +159,16 @@ export default function CategoriesPage() {
                     >
                       Edit
                     </button>
-                    <button
+                    <DeleteButton
+                      label={"Delete"}
+                      onDelete={() => handleDeleteCategory(category._id)}
+                    />
+                    {/* <button
                       type="button"
                       onClick={() => handleDeleteCategory(category._id)}
                     >
                       Delete
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               ))}
