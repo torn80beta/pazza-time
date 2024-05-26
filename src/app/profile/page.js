@@ -5,23 +5,27 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import UserTabs from "../../components/layout/UserTabs";
 import EditableImage from "../../components/layout/EditableImage";
+import UserForm from "../../components/layout/UserForm";
 export default function ProfilePage() {
-  const session = useSession();
-  const { status } = session;
-  const [userName, setUserName] = useState("");
-  const [image, setImage] = useState("");
-  const [phone, setPhone] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  // const session = useSession();
+  // const { status } = session;
+  // const session = useSession();
+  const { status } = useSession();
+  // const [userName, setUserName] = useState("");
+  // const [image, setImage] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [streetAddress, setStreetAddress] = useState("");
+  // const [postalCode, setPostalCode] = useState("");
+  // const [city, setCity] = useState("");
+  // const [country, setCountry] = useState("");
+  const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
-      setUserName(session.data?.user?.name);
-      setImage(session.data?.user?.image);
+      // setUserName(session.data?.user?.name);
+      // setImage(session.data?.user?.image);
       fetch("/api/profile", {
         method: "GET",
       })
@@ -30,34 +34,27 @@ export default function ProfilePage() {
         })
         .then((data) => {
           /* credentials fix  start */
-          setUserName(data.name);
-          setImage(data.image);
+          // setUserName(data.name);
+          // setImage(data.image);
           /* credentials fix  end */
-          setPhone(data.phone);
-          setStreetAddress(data.streetAddress);
-          setPostalCode(data.postalCode);
-          setCity(data.city);
-          setCountry(data.country);
+          // setPhone(data.phone);
+          // setStreetAddress(data.streetAddress);
+          // setPostalCode(data.postalCode);
+          // setCity(data.city);
+          // setCountry(data.country);
+          setUser(data);
           setIsAdmin(data.admin);
           setIsProfileFetched(true);
         });
     }
-  }, [session, status]);
+  }, [status]);
 
-  async function handleProfileInfoUpdate(e) {
+  async function handleProfileInfoUpdate(e, data) {
     e.preventDefault();
 
     const profileUpdatePromise = fetch("/api/profile", {
       method: "PUT",
-      body: JSON.stringify({
-        name: userName,
-        image,
-        phone,
-        streetAddress,
-        postalCode,
-        city,
-        country,
-      }),
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
@@ -90,7 +87,8 @@ export default function ProfilePage() {
       <UserTabs isAdmin={isAdmin} />
 
       <div className="max-w-xl mx-auto mt-8">
-        <div className="flex gap-4">
+        <UserForm user={user} onSave={handleProfileInfoUpdate} />
+        {/* <div className="flex gap-4">
           <div>
             <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
               <EditableImage
@@ -163,7 +161,7 @@ export default function ProfilePage() {
             />
             <button type="submit">Save</button>
           </form>
-        </div>
+        </div> */}
       </div>
     </section>
   );
