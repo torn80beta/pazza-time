@@ -103,7 +103,7 @@ export default function EditMenuItemPage() {
       {(!isProfileLoading && (
         <>
           <UserTabs isAdmin={isAdmin} />
-          <div className="max-w-md mx-auto mt-8">
+          <div className="max-w-xl mx-auto mt-8">
             <Link className="button" href="/menu-items">
               <Left />
               <span> Back to menu</span>

@@ -89,7 +89,7 @@ export default function ProfilePage() {
     <section className="mt-8">
       <UserTabs isAdmin={isAdmin} />
 
-      <div className="max-w-md mx-auto mt-8">
+      <div className="max-w-xl mx-auto mt-8">
         <div className="flex gap-4">
           <div>
             <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
@@ -131,7 +131,7 @@ export default function ProfilePage() {
             />
 
             <div className="flex gap-2">
-              <div>
+              <div className="grow">
                 <label>City</label>
                 <input
                   // style={{ margin: "0" }}

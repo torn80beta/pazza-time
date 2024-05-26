@@ -37,7 +37,7 @@ export default function MenuItemsPage() {
   }
 
   return (
-    <section className="mt-8 max-w-md mx-auto">
+    <section className="mt-8 max-w-xl mx-auto">
       {/* <h2 className="text-3xl text-center mb-8">Menu items page</h2> */}
       <UserTabs isAdmin={isAdmin} />
       <div className="mt-8">
