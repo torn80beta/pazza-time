@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import UserTabs from "../../components/layout/UserTabs";
-import EditableImage from "../../components/layout/EditableImage";
+// import EditableImage from "../../components/layout/EditableImage";
 import UserForm from "../../components/layout/UserForm";
 export default function ProfilePage() {
   // const session = useSession();
