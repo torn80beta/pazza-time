@@ -78,92 +78,90 @@ export default function UserForm({ user, onSave }) {
   // }
 
   return (
-    console.log(user),
-    (
-      <div className="flex gap-4">
-        <div>
-          <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
-            <EditableImage link={image} setLink={setImage} variant={"avatar"} />
+    // console.log(user),
+    <div className="flex gap-4">
+      <div>
+        <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
+          <EditableImage link={image} setLink={setImage} variant={"avatar"} />
+        </div>
+      </div>
+      <form
+        className="grow"
+        onSubmit={(e) =>
+          onSave(e, {
+            name: userName,
+            image,
+            phone,
+            streetAddress,
+            postalCode,
+            city,
+            country,
+          })
+        }
+      >
+        <label>First and last name</label>
+        <input
+          type="text"
+          placeholder="First and last name"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <label>Email</label>
+        <input
+          type="email"
+          placeholder="Email"
+          // value={session?.data?.user?.email}
+          value={user.email}
+          disabled={true}
+        />
+        <label>Phone</label>
+        <input
+          type="tel"
+          placeholder="Phone number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        <label>Street address</label>
+        <input
+          type="text"
+          placeholder="Street address"
+          value={streetAddress}
+          onChange={(e) => setStreetAddress(e.target.value)}
+        />
+
+        <div className="flex gap-2">
+          <div className="grow">
+            <label>City</label>
+            <input
+              // style={{ margin: "0" }}
+              type="text"
+              placeholder="City"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label>Postal code</label>
+            <input
+              // style={{ margin: "0" }}
+              type="text"
+              placeholder="Postal code"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+            />
           </div>
         </div>
-        <form
-          className="grow"
-          onSubmit={(e) =>
-            onSave(e, {
-              name: userName,
-              image,
-              phone,
-              streetAddress,
-              postalCode,
-              city,
-              country,
-            })
-          }
-        >
-          <label>First and last name</label>
-          <input
-            type="text"
-            placeholder="First and last name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            // value={session?.data?.user?.email}
-            value={user.email}
-            disabled={true}
-          />
-          <label>Phone</label>
-          <input
-            type="tel"
-            placeholder="Phone number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <label>Street address</label>
-          <input
-            type="text"
-            placeholder="Street address"
-            value={streetAddress}
-            onChange={(e) => setStreetAddress(e.target.value)}
-          />
 
-          <div className="flex gap-2">
-            <div className="grow">
-              <label>City</label>
-              <input
-                // style={{ margin: "0" }}
-                type="text"
-                placeholder="City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label>Postal code</label>
-              <input
-                // style={{ margin: "0" }}
-                type="text"
-                placeholder="Postal code"
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <label>Country</label>
-          <input
-            type="text"
-            placeholder="Country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-          />
-          <button type="submit">Save</button>
-        </form>
-      </div>
-    )
+        <label>Country</label>
+        <input
+          type="text"
+          placeholder="Country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
+        <button type="submit">Save</button>
+      </form>
+    </div>
   );
 }
