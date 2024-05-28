@@ -38,13 +38,17 @@ export default function UsersPage() {
               className="flex items-center gap-4 mb-2 p-1 px-4 bg-gray-100 rounded-lg"
               key={user._id}
             >
-              <div className="grid grid-cols-2 md:grid-cols-3 grow gap-4">
+              <div className="grid grid-cols-3 grow gap-4">
                 <span
-                  className={(!user.name ? "italic" : ``) + " text-gray-900"}
+                  className={`${!user.name ? "italic" : ""} ${
+                    user.admin ? "text-green-500" : "text-gray-900"
+                  }`}
                 >
                   {user.name || "No name"}
                 </span>
-                <span className="text-gray-500">{user.email}</span>
+                <span className="col-span-2 text-gray-500 overflow-hidden">
+                  {user.email}
+                </span>
               </div>
               <div>
                 <Link className="button" href={`/users/${user._id}`}>

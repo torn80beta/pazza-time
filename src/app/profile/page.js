@@ -87,7 +87,11 @@ export default function ProfilePage() {
       <UserTabs isAdmin={isAdmin} />
 
       <div className="max-w-xl mx-auto mt-8">
-        <UserForm user={user} onSave={handleProfileInfoUpdate} />
+        <UserForm
+          user={user}
+          onSave={handleProfileInfoUpdate}
+          currentUserData={user}
+        />
         {/* <div className="flex gap-4">
           <div>
             <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">

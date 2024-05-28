@@ -5,7 +5,7 @@ import { useState } from "react";
 // import toast from "react-hot-toast";
 import EditableImage from "../../components/layout/EditableImage";
 
-export default function UserForm({ user, onSave }) {
+export default function UserForm({ user, onSave, currentUserData }) {
   // const session = useSession();
   // const { status } = session;
   const [userName, setUserName] = useState(user?.name || "");
@@ -15,6 +15,11 @@ export default function UserForm({ user, onSave }) {
   const [postalCode, setPostalCode] = useState(user?.postalCode || "");
   const [city, setCity] = useState(user?.city || "");
   const [country, setCountry] = useState(user?.country || "");
+  const [admin, setAdmin] = useState(user?.admin || false);
+
+  // const isAdmin = profileData?.admin || false;
+  // const currentUserId = profileData?._id;
+  // console.log(JSON.stringify(profileData));
   // const [isAdmin, setIsAdmin] = useState(false);
   // const [isProfileFetched, setIsProfileFetched] = useState(false);
 
@@ -78,7 +83,7 @@ export default function UserForm({ user, onSave }) {
   // }
 
   return (
-    // console.log(user),
+    // console.log(currentUserData),
     <div className="flex gap-4">
       <div>
         <div className="flex flex-col p-2 rounded-lg min-w-24 max-w-[120px]">
@@ -96,6 +101,7 @@ export default function UserForm({ user, onSave }) {
             postalCode,
             city,
             country,
+            admin,
           })
         }
       >
@@ -153,13 +159,36 @@ export default function UserForm({ user, onSave }) {
           </div>
         </div>
 
-        <label>Country</label>
-        <input
-          type="text"
-          placeholder="Country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
+        <div className={`mb-${currentUserData?.admin ? "2" : "4"}`}>
+          <label>Country</label>
+          <input
+            type="text"
+            placeholder="Country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          />
+        </div>
+
+        {currentUserData?.admin && (
+          <div className="mb-0">
+            {/* {JSON.stringify(admin)} */}
+            <label
+              className="mb-2 p-2 inline-flex items-center gap-2"
+              htmlFor="adminCb"
+            >
+              <input
+                className=""
+                id="adminCb"
+                type="checkbox"
+                value={"1"}
+                checked={admin}
+                onChange={(e) => setAdmin(e.target.checked)}
+                disabled={currentUserData._id === user._id}
+              />
+              <span>Admin</span>
+            </label>
+          </div>
+        )}
         <button type="submit">Save</button>
       </form>
     </div>

@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 export default function EditUserPage() {
   const { isLoading: isProfileLoading, data: profileData } = useProfile();
   const isAdmin = profileData?.admin;
+
   const { id } = useParams();
   const [user, setUser] = useState(null);
 
@@ -64,7 +65,13 @@ export default function EditUserPage() {
       <UserTabs isAdmin />
 
       <div className="mt-8">
-        {user && <UserForm user={user} onSave={handleFormSubmit} />}
+        {user && (
+          <UserForm
+            user={user}
+            onSave={handleFormSubmit}
+            currentUserData={profileData}
+          />
+        )}
       </div>
     </section>
   );

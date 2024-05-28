@@ -14,5 +14,5 @@ export function useProfile() {
     });
   }, []);
 
-  return { data, isLoading };
+  return { isLoading, data };
 }
