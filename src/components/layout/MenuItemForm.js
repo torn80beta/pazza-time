@@ -7,11 +7,11 @@ export default function MenuItemForm({ onSubmit, menuItem, onDelete }) {
   const [image, setImage] = useState(menuItem?.image || "");
   const [name, setName] = useState(menuItem?.name || "");
   const [description, setDescription] = useState(menuItem?.description || "");
-  const [category, setCategory] = useState(menuItem?.category || "");
   const [basePrice, setBasePrice] = useState(menuItem?.basePrice || 0);
   const [sizes, setSizes] = useState(menuItem?.sizes || []);
   const [extras, setExtras] = useState(menuItem?.extras || []);
   const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState(menuItem?.category || categories[0]);
 
   useEffect(() => {
     fetch("/api/categories").then((res) => {
@@ -62,7 +62,9 @@ export default function MenuItemForm({ onSubmit, menuItem, onDelete }) {
           <label>Category</label>
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
           >
             {categories?.length > 0 &&
               categories.map((cat) => (
