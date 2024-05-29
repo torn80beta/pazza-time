@@ -8,19 +8,19 @@ export default function MenuItem({ item }) {
     <div className="bg-gray-100 py-6 px-4 rounded-lg text-center hover:bg-white hover:shadow-2xl hover:shadow-black/30 transition-all">
       <div className="group text-center">
         <Image
-          className="h-auto w-auto max-h-40 block mx-auto rounded-md"
+          className="h-auto w-auto max-h-36 block mx-auto rounded-md"
           // src="/pizza.png"
           src={image}
           alt="pizza"
-          width={150}
-          height={150}
+          width={144}
+          height={144}
         />
 
         {/* Popup image*/}
         <div
           className="
         bg-gray-300 bg-opacity-50 rounded-md p-6
-        opacity-0 absolute top-[25%] left-[50%] -translate-x-1/2 -translate-y-1/2 transition duration-500 z-10 invisible group-hover:visible delay-100 scale-0 group-hover:scale-125 group-hover:opacity-100"
+        opacity-0 fixed top-[25%] left-[50%] -translate-x-1/2 -translate-y-1/2 transition duration-500 z-10 invisible group-hover:visible delay-100 scale-0 group-hover:scale-125 group-hover:opacity-100"
         >
           <Image
             className="rounded-xl"
