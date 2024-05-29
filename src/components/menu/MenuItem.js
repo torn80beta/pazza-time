@@ -1,7 +1,10 @@
 import Image from "next/image";
+import { useContext } from "react";
+import { CartContext } from "@/components/AppContext";
 
 export default function MenuItem({ item }) {
   const { image, name, description, basePrice, sizes, extras } = item;
+  const { addToCart } = useContext(CartContext);
 
   return (
     // console.log(item),
@@ -35,7 +38,10 @@ export default function MenuItem({ item }) {
 
       <h4 className="font-semibold text-xl my-3">{name}</h4>
       <p className="text-gray-500 text-sm line-clamp-3">{description}</p>
-      <button className="mt-4 bg-primary rounded-full text-white px-8 py-2">
+      <button
+        className="mt-4 bg-primary rounded-full text-white px-8 py-2"
+        onClick={() => addToCart(item)}
+      >
         Add to cart ${basePrice}
       </button>
     </div>
