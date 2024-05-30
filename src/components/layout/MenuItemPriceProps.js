@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import Trash from "../icons/Trash";
 import Plus from "../icons/Plus";
 import ChevronUp from "../icons/ChevronUp";
@@ -21,6 +20,7 @@ export default function MenuItemPriceProps({
     setProps((prevProps) => {
       const newProps = [...prevProps];
       newProps[index][prop] = e.target.value;
+
       return newProps;
     });
   }
@@ -42,15 +42,17 @@ export default function MenuItemPriceProps({
       </button>
       <div className={isOpen ? "block" : "hidden"}>
         {props?.length > 0 &&
-          props.map((size, index) => (
-            <div className="flex gap-2 items-end" key={nanoid()}>
+          props.map((prop, index) => (
+            <div className="flex gap-2 items-end" key={index}>
               <div>
                 <label>Name</label>
                 <input
                   type="text"
                   placeholder="Add name"
-                  value={size.name}
-                  onChange={(e) => editProps(e, index, "name")}
+                  value={prop.name}
+                  onChange={(e) => {
+                    editProps(e, index, "name");
+                  }}
                 />
               </div>
 
@@ -59,7 +61,7 @@ export default function MenuItemPriceProps({
                 <input
                   type="text"
                   placeholder="Extra price"
-                  value={size.price}
+                  value={prop.price}
                   onChange={(e) => editProps(e, index, "price")}
                 />
               </div>
