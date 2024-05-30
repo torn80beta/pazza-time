@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useContext, useState } from "react";
 import { CartContext } from "@/components/AppContext";
 import toast from "react-hot-toast";
+import MealModal from "./MealModal";
 
 export default function MenuItem({ item }) {
   const { image, name, description, basePrice, sizes, extras } = item;
@@ -20,8 +21,8 @@ export default function MenuItem({ item }) {
   return (
     // console.log(item),
     <>
-      {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/20">
+      {showPopup && <MealModal item={item} setShowPopup={setShowPopup} />}
+      {/* <div className="fixed inset-0 flex items-center justify-center bg-black/20">
           <div className="flex flex-col gap-4 max-w-md items-center overflow-y-scroll no-scrollbar max-h-[calc(100vh-(100vh-95%))] bg-white p-8 rounded-lg">
             <Image
               className="rounded-lg"
@@ -81,8 +82,7 @@ export default function MenuItem({ item }) {
               close
             </button>
           </div>
-        </div>
-      )}
+        </div> */}
       <div className="bg-gray-100 py-6 px-4 rounded-lg text-center hover:bg-white hover:shadow-2xl hover:shadow-black/30 transition-all">
         <div className="group text-center">
           <Image
