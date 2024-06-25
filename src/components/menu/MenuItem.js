@@ -9,7 +9,16 @@ export default function MenuItem({ item }) {
   const { addToCart } = useContext(CartContext);
   const [showPopup, setShowPopup] = useState(false);
 
-  function handleAddToCart() {
+  function handleAddToCart(selectedSize, selectedExtras) {
+    if (showPopup) {
+      // console.log(selectedSize);
+      addToCart(item, selectedSize, selectedExtras);
+
+      toast.success("Added to cart");
+      setShowPopup(false);
+      return;
+    }
+
     if (sizes.length === 0 && extras.length === 0) {
       addToCart(item);
       toast.success("Added to cart");
@@ -21,7 +30,13 @@ export default function MenuItem({ item }) {
   return (
     // console.log(item),
     <>
-      {showPopup && <MealModal item={item} setShowPopup={setShowPopup} />}
+      {showPopup && (
+        <MealModal
+          item={item}
+          setShowPopup={setShowPopup}
+          onAddToCart={handleAddToCart}
+        />
+      )}
       {/* <div className="fixed inset-0 flex items-center justify-center bg-black/20">
           <div className="flex flex-col gap-4 max-w-md items-center overflow-y-scroll no-scrollbar max-h-[calc(100vh-(100vh-95%))] bg-white p-8 rounded-lg">
             <Image
@@ -117,7 +132,7 @@ export default function MenuItem({ item }) {
           className="mt-4 bg-primary rounded-full text-white px-8 py-2"
           onClick={handleAddToCart}
         >
-          Add to cart ${basePrice}
+          Add to cart {basePrice}$
         </button>
       </div>
     </>

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function MealModal({ item, setShowPopup }) {
+export default function MealModal({ item, setShowPopup, onAddToCart }) {
   const { image, name, description, basePrice, sizes, extras } = item;
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || null);
   const [selectedExtras, setSelectedExtras] = useState([]);
 
   function handleExtraClick(e, extra) {
@@ -17,9 +17,28 @@ export default function MealModal({ item, setShowPopup }) {
     }
   }
 
+  let selectedPrice = basePrice;
+
+  if (selectedSize) {
+    // console.log(selectedSize);
+    selectedPrice += selectedSize.price;
+  }
+
+  if (selectedExtras.length > 0) {
+    // console.log(selectedExtras);
+    selectedPrice += selectedExtras.reduce((acc, item) => acc + item.price, 0);
+  }
+
   return (
     // console.log(selectedExtras),
-    <div className="fixed inset-0 flex items-center justify-center bg-black/20">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black/20"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          setShowPopup(false);
+        }
+      }}
+    >
       <div className="flex flex-col gap-4 max-w-md items-center overflow-y-scroll no-scrollbar max-h-[calc(100vh-(100vh-95%))] bg-white p-8 rounded-lg">
         <Image
           className="rounded-lg"
@@ -30,6 +49,13 @@ export default function MealModal({ item, setShowPopup }) {
         />
         <h2 className="text-lg font-bold">{name}</h2>
         <p className="text-center text-gray-500 text-sm mb-2">{description}</p>
+
+        {/* <p className="text-center text-gray-500 text-sm mb-2">{description}</p>
+        <p className="text-center text-gray-500 text-sm mb-2">{description}</p>
+        <p className="text-center text-gray-500 text-sm mb-2">{description}</p>
+        <p className="text-center text-gray-500 text-sm mb-2">{description}</p>
+        <p className="text-center text-gray-500 text-sm mb-2">{description}</p>
+        <p className="text-center text-gray-500 text-sm mb-2">{description}</p> */}
 
         <div className="flex gap-2">
           {sizes.length > 0 && (
@@ -76,15 +102,20 @@ export default function MealModal({ item, setShowPopup }) {
             </div>
           )}
         </div>
-        <button className="primary" type="button">
+        <button
+          className="primary sticky bottom-1"
+          type="button"
+          onClick={() => onAddToCart(item, selectedSize, selectedExtras)}
+        >
           Add to cart
+          {` ${selectedPrice}$`}
         </button>
         <button
-          className="flex items-center text-black bg-gray-200 px-4 py-2 w-24 h-8"
+          className="-mt-2"
           type="button"
           onClick={() => setShowPopup(false)}
         >
-          close
+          Cancel
         </button>
       </div>
     </div>

@@ -35,11 +35,13 @@ export function AppContext({ children }) {
   }
 
   function addToCart(product, size = null, extras = []) {
+    console.log("product ", product, "size ", size, "extras ", extras);
     setCartProducts((prevProducts) => {
       const productToAdd = { ...product, size, extras };
+      // console.log(productToAdd);
       const updatedCart = [...prevProducts, productToAdd];
       saveCartToLocalStorage(updatedCart);
-      console.log(updatedCart);
+      // console.log(updatedCart);
       return updatedCart;
     });
   }
