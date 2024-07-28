@@ -34,8 +34,10 @@ export function AppContext({ children }) {
     saveCartToLocalStorage([]);
   }
 
-  function addToCart(product, size = null, extras = []) {
-    console.log("product ", product, "size ", size, "extras ", extras);
+  function addToCart(product, size = {}, extras = []) {
+    console.log("product ", product);
+    console.log("size ", size);
+    console.log("extras ", extras);
     setCartProducts((prevProducts) => {
       const productToAdd = { ...product, size, extras };
       // console.log(productToAdd);

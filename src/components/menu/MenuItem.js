@@ -10,20 +10,33 @@ export default function MenuItem({ item }) {
   const [showPopup, setShowPopup] = useState(false);
 
   function handleAddToCart(selectedSize, selectedExtras) {
-    if (showPopup) {
-      // console.log(selectedSize);
-      addToCart(item, selectedSize, selectedExtras);
+    const hasOptions = sizes.length > 0 || extras.length > 0;
 
-      toast.success("Added to cart");
-      setShowPopup(false);
-      return;
-    }
+    /* Not working!!! */
+    // if (hasOptions && !showPopup) {
+    //   setShowPopup(true);
+    //   return;
+    // }
 
-    if (sizes.length === 0 && extras.length === 0) {
+    // addToCart(item, selectedSize, selectedExtras);
+    // setShowPopup(false);
+    // toast.success("Added to cart!");
+
+    /* Working! */
+
+    if (!hasOptions) {
       addToCart(item);
       toast.success("Added to cart");
     } else {
       setShowPopup(true);
+    }
+
+    if (showPopup) {
+      // console.log(selectedSize);
+      addToCart(item, selectedSize, selectedExtras);
+      toast.success("Added to cart");
+      setShowPopup(false);
+      return;
     }
   }
 
@@ -132,7 +145,11 @@ export default function MenuItem({ item }) {
           className="mt-4 bg-primary rounded-full text-white px-8 py-2"
           onClick={handleAddToCart}
         >
-          Add to cart {basePrice}$
+          {sizes.length > 0 || extras.length > 0 ? (
+            <span>Select extras</span>
+          ) : (
+            <span>Add to cart ${basePrice}$</span>
+          )}
         </button>
       </div>
     </>

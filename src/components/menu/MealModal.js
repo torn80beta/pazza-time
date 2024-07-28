@@ -30,7 +30,7 @@ export default function MealModal({ item, setShowPopup, onAddToCart }) {
   }
 
   return (
-    // console.log(selectedExtras),
+    // console.log(item),
     <div
       className="fixed inset-0 flex items-center justify-center bg-black/20"
       onClick={(e) => {
@@ -105,7 +105,8 @@ export default function MealModal({ item, setShowPopup, onAddToCart }) {
         <button
           className="primary sticky bottom-1"
           type="button"
-          onClick={() => onAddToCart(item, selectedSize, selectedExtras)}
+          onClick={() => onAddToCart(selectedSize, selectedExtras)}
+          // onClick={() => onAddToCart(item, selectedSize, selectedExtras)}
         >
           Add to cart
           {` ${selectedPrice}$`}
