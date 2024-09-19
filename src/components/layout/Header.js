@@ -59,7 +59,7 @@ export default function Header() {
 
         <Link href={"/cart"} className="relative">
           <ShoppingCart />
-          <span className="absolute -top-2 -right-3 bg-primary text-white text-xs p-1 rounded-full leading-none">
+          <span className="absolute min-w-5 -top-2 -right-3 bg-primary text-white text-xs text-center p-1 rounded-full leading-none">
             {cartProducts.length}
           </span>
         </Link>

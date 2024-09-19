@@ -114,7 +114,8 @@ export default function MenuItem({ item }) {
       <div className="bg-gray-100 py-6 px-4 rounded-lg text-center hover:bg-white hover:shadow-2xl hover:shadow-black/30 transition-all">
         <div className="group text-center">
           <Image
-            className="h-auto w-auto max-h-36 block mx-auto rounded-md"
+            // className="block mx-auto rounded-md min-w-[12dvw] max-w-[12dvw]"
+            className="h-auto w-auto max-w-[150px] max-h-36 block mx-auto rounded-md"
             src={image}
             alt="pizza"
             width={144}
@@ -148,7 +149,7 @@ export default function MenuItem({ item }) {
           {sizes.length > 0 || extras.length > 0 ? (
             <span>Select extras</span>
           ) : (
-            <span>Add to cart ${basePrice}$</span>
+            <span>Add to cart ${basePrice}</span>
           )}
         </button>
       </div>

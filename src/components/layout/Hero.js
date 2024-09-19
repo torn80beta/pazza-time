@@ -3,7 +3,7 @@ import Right from "../icons/Right";
 
 export default function Hero() {
   return (
-    <section className="hero mt-4">
+    <section className="hero mt-4 flex justify-center">
       <div className="py-12">
         <h1 className="text-4xl text-semibold">
           Everything
@@ -28,8 +28,21 @@ export default function Hero() {
           </button>
         </div>
       </div>
-      <div className="relative">
-        <Image src="/pizza.png" alt="pizza" layout="fill" objectFit="contain" />
+      <div
+        // className="relative"
+        className="flex items-center justify-center"
+      >
+        <Image
+          src="/pizza.png"
+          alt="pizza"
+          width={512}
+          height={512}
+          // objectFit="contain"
+          // layout="fill"
+          priority={true}
+          style={{ height: "auto" }}
+        />
+        {/* <Image src="/pizza.png" alt="pizza" layout="fill" objectFit="contain" /> */}
       </div>
     </section>
   );

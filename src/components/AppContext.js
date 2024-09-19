@@ -1,8 +1,25 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
 import { createContext, useState, useEffect } from "react";
+import { nanoid } from "nanoid";
 
 export const CartContext = createContext({});
+
+export function cartProductPrice(cartProduct) {
+  let price = cartProduct.basePrice;
+
+  if (cartProduct.size?.price) {
+    price += cartProduct.size.price;
+  }
+
+  if (cartProduct.extras?.length > 0) {
+    price += cartProduct.extras.reduce((acc, item) => {
+      return acc + item.price;
+    }, 0);
+  }
+
+  return price;
+}
 
 export function AppContext({ children }) {
   const [cartProducts, setCartProducts] = useState([]);
@@ -23,7 +40,9 @@ export function AppContext({ children }) {
 
   function removeProductFromCart(id) {
     setCartProducts((prevProducts) => {
-      const updatedCart = prevProducts.filter((product) => product._id !== id);
+      const updatedCart = prevProducts.filter(
+        (product) => product.cartProductID !== id
+      );
       saveCartToLocalStorage(updatedCart);
       return updatedCart;
     });
@@ -38,8 +57,9 @@ export function AppContext({ children }) {
     console.log("product ", product);
     console.log("size ", size);
     console.log("extras ", extras);
+    const cartProductID = nanoid();
     setCartProducts((prevProducts) => {
-      const productToAdd = { ...product, size, extras };
+      const productToAdd = { ...product, size, extras, cartProductID };
       // console.log(productToAdd);
       const updatedCart = [...prevProducts, productToAdd];
       saveCartToLocalStorage(updatedCart);
