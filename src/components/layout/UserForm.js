@@ -4,6 +4,7 @@
 import { useState } from "react";
 // import toast from "react-hot-toast";
 import EditableImage from "../../components/layout/EditableImage";
+import AddressInputs from "./AddressInputs";
 
 export default function UserForm({ user, onSave, currentUserData }) {
   // const session = useSession();
@@ -16,6 +17,28 @@ export default function UserForm({ user, onSave, currentUserData }) {
   const [city, setCity] = useState(user?.city || "");
   const [country, setCountry] = useState(user?.country || "");
   const [admin, setAdmin] = useState(user?.admin || false);
+
+  function handleAddressChange(propName, value) {
+    if (propName === "phone") {
+      setPhone(value);
+    }
+
+    if (propName === "streetAddress") {
+      setStreetAddress(value);
+    }
+
+    if (propName === "postalCode") {
+      setPostalCode(value);
+    }
+
+    if (propName === "city") {
+      setCity(value);
+    }
+
+    if (propName === "country") {
+      setCountry(value);
+    }
+  }
 
   // const isAdmin = profileData?.admin || false;
   // const currentUserId = profileData?._id;
@@ -120,7 +143,15 @@ export default function UserForm({ user, onSave, currentUserData }) {
           value={user.email}
           disabled={true}
         />
-        <label>Phone</label>
+        <AddressInputs
+          addressProps={{ phone, streetAddress, city, postalCode, country }}
+          setAddressProp={handleAddressChange}
+          currentUserData={currentUserData}
+        />
+
+        {/* Pre separate inputs component */}
+
+        {/* <label>Phone</label>
         <input
           type="tel"
           placeholder="Phone number"
@@ -167,7 +198,7 @@ export default function UserForm({ user, onSave, currentUserData }) {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
-        </div>
+        </div> */}
 
         {currentUserData?.admin && (
           <div className="mb-0">

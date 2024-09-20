@@ -1,14 +1,55 @@
 "use client";
 
 import SectionHeaders from "@/components/layout/SectionHeaders";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "@/components/AppContext";
 import Image from "next/image";
 import Trash from "@/components/icons/Trash";
 import { cartProductPrice } from "@/components/AppContext";
+import AddressInputs from "@/components/layout/AddressInputs";
 
 export default function CartPage() {
   const { cartProducts, removeProductFromCart } = useContext(CartContext);
+  // const { address, setAddress } = useState({});
+
+  const totalPrice = cartProducts.reduce(
+    (acc, product) => acc + cartProductPrice(product),
+    0
+  );
+
+  const [phone, setPhone] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+
+  function handleAddressChange(propName, value) {
+    if (propName === "phone") {
+      setPhone(value);
+    }
+
+    if (propName === "streetAddress") {
+      setStreetAddress(value);
+    }
+
+    if (propName === "postalCode") {
+      setPostalCode(value);
+    }
+
+    if (propName === "city") {
+      setCity(value);
+    }
+
+    if (propName === "country") {
+      setCountry(value);
+    }
+  }
+
+  // function handleAddressChange(propName, value) {
+  //   setAddress((prevAddress) => {
+  //     return { ...prevAddress, [propName]: value };
+  //   });
+  // }
 
   return (
     <section className="mt-8">
@@ -81,8 +122,22 @@ export default function CartPage() {
                 )
               )
             )}
+          <div className="py-4 text-right pr-16">
+            <span className="text-gray-500">Subtotal:</span>
+            <span className="text-lg font-semibold pl-2">${totalPrice}</span>
+          </div>
         </div>
-        <div>right</div>
+        <div className="bg-gray-100 p-4 rounded-lg">
+          <h2 className="">Checkout</h2>
+          <form>
+            {/* <label htmlFor="address">Address</label> */}
+            <AddressInputs
+              addressProps={{ phone, streetAddress, city, postalCode, country }}
+              setAddressProp={handleAddressChange}
+            />
+            <button type="submit">Pay ${totalPrice}</button>
+          </form>
+        </div>
       </div>
     </section>
   );
