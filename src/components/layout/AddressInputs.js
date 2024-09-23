@@ -5,7 +5,7 @@ export default function AddressInputs({
   setAddressProp,
   currentUserData,
 }) {
-  // console.log(setter);
+  console.log(addressProps);
   const { phone, streetAddress, city, postalCode, country } = addressProps;
 
   return (
