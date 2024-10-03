@@ -8,9 +8,11 @@ import Trash from "@/components/icons/Trash";
 import { cartProductPrice } from "@/components/AppContext";
 import AddressInputs from "@/components/layout/AddressInputs";
 import { useSession } from "next-auth/react";
+import { useProfile } from "@/app/hooks/UseProfile";
 
 export default function CartPage() {
   const { status } = useSession();
+  const { data: profileData } = useProfile();
   // const [user, setUser] = useState(null);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const { cartProducts, removeProductFromCart } = useContext(CartContext);
@@ -30,10 +32,20 @@ export default function CartPage() {
   useEffect(() => {
     if (status === "authenticated") {
       setIsProfileFetched(true);
+      if (profileData.streetAddress) {
+        const { streetAddress, phone, city, postalCode, country } = profileData;
+        setDeliveryAddress({
+          streetAddress,
+          phone,
+          city,
+          postalCode,
+          country,
+        });
+      }
     }
-  }, [status]);
+  }, [status, profileData]);
 
-  /* In case we want to grab address from user object */
+  /* In case we want to grab address from context user object */
 
   // useEffect(() => {
   //   if (status === "authenticated" && !user) {
@@ -85,7 +97,7 @@ export default function CartPage() {
         <SectionHeaders mainHeader={"Cart"} />
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-2 gap-8 mt-8">
         <div>
           {cartProducts.length === 0 && (
             <div>There is no products in your shopping cart</div>
@@ -140,7 +152,7 @@ export default function CartPage() {
                 </div>
               </div>
             ))}
-          <div className="py-4 text-right pr-16">
+          <div className="py-2 text-right pr-16">
             <span className="text-gray-500">Subtotal:</span>
             <span className="text-lg font-semibold pl-2">${totalPrice}</span>
           </div>

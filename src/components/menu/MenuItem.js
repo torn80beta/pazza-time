@@ -3,14 +3,16 @@ import { useContext, useState } from "react";
 import { CartContext } from "@/components/AppContext";
 import toast from "react-hot-toast";
 import MealModal from "./MealModal";
+import AddToCartButton from "./AddToCartButton";
 
 export default function MenuItem({ item }) {
   const { image, name, description, basePrice, sizes, extras } = item;
   const { addToCart } = useContext(CartContext);
   const [showPopup, setShowPopup] = useState(false);
+  const hasOptions = sizes.length > 0 || extras.length > 0;
 
   function handleAddToCart(selectedSize, selectedExtras) {
-    const hasOptions = sizes.length > 0 || extras.length > 0;
+    // const hasOptions = sizes.length > 0 || extras.length > 0;
 
     /* Not working!!! */
     // if (hasOptions && !showPopup) {
@@ -35,7 +37,10 @@ export default function MenuItem({ item }) {
       // console.log(selectedSize);
       addToCart(item, selectedSize, selectedExtras);
       toast.success("Added to cart");
-      setShowPopup(false);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 800);
+
       return;
     }
   }
@@ -141,17 +146,13 @@ export default function MenuItem({ item }) {
 
         <h4 className="font-semibold text-xl my-3">{name}</h4>
         <p className="text-gray-500 text-sm line-clamp-3">{description}</p>
-        <button
-          type="button"
-          className="mt-4 bg-primary rounded-full text-white px-8 py-2"
+
+        <AddToCartButton
+          hasOptions={hasOptions}
+          basePrice={basePrice}
           onClick={handleAddToCart}
-        >
-          {sizes.length > 0 || extras.length > 0 ? (
-            <span>Select extras</span>
-          ) : (
-            <span>Add to cart ${basePrice}</span>
-          )}
-        </button>
+          image={image}
+        />
       </div>
     </>
   );

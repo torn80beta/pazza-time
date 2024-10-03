@@ -54,9 +54,9 @@ export function AppContext({ children }) {
   }
 
   function addToCart(product, size = {}, extras = []) {
-    console.log("product ", product);
-    console.log("size ", size);
-    console.log("extras ", extras);
+    // console.log("product ", product);
+    // console.log("size ", size);
+    // console.log("extras ", extras);
     const cartProductID = nanoid();
     setCartProducts((prevProducts) => {
       const productToAdd = { ...product, size, extras, cartProductID };

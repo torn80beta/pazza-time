@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
+import FlyingButton from "updated-react-flying-item";
 
 export default function MealModal({ item, setShowPopup, onAddToCart }) {
   const { image, name, description, basePrice, sizes, extras } = item;
@@ -102,15 +103,24 @@ export default function MealModal({ item, setShowPopup, onAddToCart }) {
             </div>
           )}
         </div>
-        <button
+        <div className="flying-button-extra w-full">
+          <FlyingButton targetTop={"5%"} targetLeft={"95%"} src={image}>
+            <div
+              className="primary sticky bottom-1"
+              onClick={() => onAddToCart(selectedSize, selectedExtras)}
+            >
+              Add to cart ${selectedPrice}
+            </div>
+          </FlyingButton>
+        </div>
+        {/* <button
           className="primary sticky bottom-1"
           type="button"
           onClick={() => onAddToCart(selectedSize, selectedExtras)}
           // onClick={() => onAddToCart(item, selectedSize, selectedExtras)}
         >
-          Add to cart
-          {` ${selectedPrice}$`}
-        </button>
+          Add to cart ${selectedPrice}
+        </button> */}
         <button
           className="-mt-2"
           type="button"
