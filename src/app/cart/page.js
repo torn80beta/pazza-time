@@ -13,7 +13,6 @@ import { useProfile } from "@/app/hooks/UseProfile";
 export default function CartPage() {
   const { status } = useSession();
   const { data: profileData } = useProfile();
-  // const [user, setUser] = useState(null);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const { cartProducts, removeProductFromCart } = useContext(CartContext);
   const [deliveryAddress, setDeliveryAddress] = useState({
@@ -24,7 +23,7 @@ export default function CartPage() {
     country: "",
   });
 
-  const totalPrice = cartProducts.reduce(
+  const subTotalPrice = cartProducts.reduce(
     (acc, product) => acc + cartProductPrice(product),
     0
   );
@@ -44,35 +43,6 @@ export default function CartPage() {
       }
     }
   }, [status, profileData]);
-
-  /* In case we want to grab address from context user object */
-
-  // useEffect(() => {
-  //   if (status === "authenticated" && !user) {
-  //     fetch("/api/profile", {
-  //       method: "GET",
-  //     })
-  //       .then((res) => {
-  //         return res.json();
-  //       })
-  //       .then((data) => {
-  //         setUser(data);
-  //         setIsProfileFetched(true);
-  //       });
-  //   }
-  // }, [status, user]);
-
-  // useEffect(() => {
-  //   if (status === "authenticated" && user) {
-  //     setDeliveryAddress({
-  //       phone: user?.phone || "",
-  //       streetAddress: user?.streetAddress || "",
-  //       city: user?.city || "",
-  //       postalCode: user?.postalCode || "",
-  //       country: user?.country || "",
-  //     });
-  //   }
-  // }, [user, status]);
 
   function handleAddressChange(propName, value) {
     setDeliveryAddress((prevAddress) => {
@@ -152,20 +122,30 @@ export default function CartPage() {
                 </div>
               </div>
             ))}
-          <div className="py-2 text-right pr-16">
-            <span className="text-gray-500">Subtotal:</span>
-            <span className="text-lg font-semibold pl-2">${totalPrice}</span>
+          <div className="py-2 pr-16 flex items-center justify-end">
+            <div className="text-gray-500 text-md">
+              Subtotal:
+              <br />
+              Delivery:
+              <br />
+              Total:
+            </div>
+            <div className="text-md font-semibold pl-2 text-right">
+              ${subTotalPrice}
+              <br />
+              $5
+              <br />${subTotalPrice + 5}
+            </div>
           </div>
         </div>
         <div className="bg-gray-100 p-4 rounded-lg">
           <h2 className="">Checkout</h2>
           <form>
-            {/* <label htmlFor="address">Address</label> */}
             <AddressInputs
               addressProps={{ ...deliveryAddress }}
               setAddressProp={handleAddressChange}
             />
-            <button type="submit">Pay ${totalPrice}</button>
+            <button type="submit">Pay ${subTotalPrice + 5}</button>
           </form>
         </div>
       </div>
