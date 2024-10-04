@@ -151,7 +151,7 @@ export default function MenuItem({ item }) {
           hasOptions={hasOptions}
           basePrice={basePrice}
           onClick={handleAddToCart}
-          image={image}
+          // image={image}
         />
       </div>
     </>
