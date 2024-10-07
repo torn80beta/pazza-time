@@ -60,6 +60,25 @@ export default function CartPage() {
   }
   /*  */
 
+  async function proceedToCheckout(e) {
+    e.preventDefault();
+    const response = await fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        deliveryAddress,
+        cartProducts,
+      }),
+    });
+
+    // const link = await response.json();
+
+    // window.location.href = link.url;
+    // window.location = link;
+  }
+
   return (
     // console.log(user),
     <section className="mt-8">
@@ -130,7 +149,7 @@ export default function CartPage() {
               <br />
               Total:
             </div>
-            <div className="text-md font-semibold pl-2 text-right">
+            <div className="font-semibold pl-2 text-right">
               ${subTotalPrice}
               <br />
               $5
@@ -140,7 +159,7 @@ export default function CartPage() {
         </div>
         <div className="bg-gray-100 p-4 rounded-lg">
           <h2 className="">Checkout</h2>
-          <form>
+          <form onSubmit={proceedToCheckout}>
             <AddressInputs
               addressProps={{ ...deliveryAddress }}
               setAddressProp={handleAddressChange}
