@@ -97,7 +97,7 @@ export default function CartPage() {
                 className="flex gap-4 border-b py-4 items-center"
                 key={product.cartProductID}
               >
-                <div className="min-w-[12dvw] max-w-[12dvw]">
+                <div className="min-w-[8dvw] max-w-[8dvw]">
                   <Image
                     className="rounded-xl"
                     src={product.image}
